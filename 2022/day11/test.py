@@ -17,7 +17,9 @@ inspections = []
 for x in range(0, len(monkeys)):
     inspections.append(0)
 for r in range(0, rounds):
+    print('ROUND ', r)
     mks = list_of_lists(len(monkeys))
+    print(monkeys)
     for monkey in monkeys:
         m = monkey[2].split(' ')
         inspections[int(monkey[0].split(' ')[-1].strip(':'))] += len(monkey[1].split(':')[1].split(', '))
