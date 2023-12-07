@@ -6,11 +6,27 @@ def parse_input(path:str) -> list[tuple]:
 
     return [(game.split()[0], game.split()[1]) for game in games]
 
-def calculate_type(hands:list[tuple]) -> dict:
+def calculate_type(hands:list[tuple], joker:bool = False) -> dict:
     types = [[] for x in range(7)]
     for hand in hands:
-        cards, unique = hand[0], set(hand[0])
-        distribution = sorted([cards.count(x) for x in unique])
+        cards = hand[0]
+        # distribution = sorted([cards.count(x) for x in unique])
+
+        if joker and 'J' in hand[0]:
+            h = ''.join(list(filter(lambda x: x != 'J', hand[0])))
+            unique = set(h)
+
+            distribution = [cards.count(x) for x in unique]
+
+            if distribution != []:
+                distribution[distribution.index(max(distribution))] += cards.count('J')
+                distribution.sort()
+            else:
+                distribution.append(5)
+        else:
+            unique = set(hand[0])
+            distribution = sorted([cards.count(x) for x in unique])
+
         match distribution:
             case [5]:
                 types[0].append(cards)
@@ -71,3 +87,8 @@ if __name__ == '__main__':
     ranked = sort_types(types, strengths)
     print(f"Total winnings: {winnings(hands, ranked)}")
 
+    # Part 2
+    strengths = ('J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A')
+    types = calculate_type(hands, True)
+    ranked = sort_types(types, strengths)
+    print(f"--- Part 2 ---\nTotal winnings with joker: {winnings(hands, ranked)}")
