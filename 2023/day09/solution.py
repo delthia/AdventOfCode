@@ -22,12 +22,15 @@ def step_differences(histories:list) -> list[list[list]]:
     return differences
 
 
-def extrapolate_history(histories:str) -> list:
+def extrapolate_history(histories:str, reverse:bool = False) -> list:
     extrapolated = []
     for history in histories:
         value = 0
         for x in range(len(history)-2, -1, -1):
-            value += history[x][-1]
+            if reverse:
+                value = history[x][0] - value
+            else:
+                value += history[x][-1]
         extrapolated.append(value)
 
     return extrapolated
@@ -40,3 +43,7 @@ if __name__ == '__main__':
     # Part 1
     extrapolated = extrapolate_history(differences)
     print(f"All the extrapolated values add up to {sum(extrapolated)}")
+
+    # Part 2
+    extrapolated = extrapolate_history(differences, True)
+    print(f"All the previous extrapolated values add up to {sum(extrapolated)}")
