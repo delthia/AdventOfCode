@@ -44,22 +44,36 @@ int main() {
 	int c1 = 1, c2 = 1, p1 = 0, p2 = 0;
 	s = 0;
 	while(p1 < a.size()) {
-		while(a[p1+c1] == a[p1+c1-1]) {
-			if(c1+1 >= a.size()) {
-				break;
+		t = 0;
+
+		// If both elements are equal
+		if(a[p1] == b[p2]) {
+			c1 = 1, c2 = 1;
+			// Count how many equal elements there are in list a
+			while(a[p1] == a[p1+c1] && c1 < a.size()) {
+				c1 += 1;
+				cout << "igual\n";
+				cout << a[p1] << " " << a[p1+c1] << "\n";
 			}
-			c1 += 1;
-		}
-		while(b[p2+c2] == b[p2+c2-1]) {
-			if(c2+1 >= b.size()) {
-				break;
+			// Count how many equal elements there are in list b
+			while(b[p2] == b[p2+c2] && c2 < b.size() ) {
+				c2 += 1;
 			}
-			c2 += 1;
+
+			cout << c1 << " " << c2 << "\n";
+			t = a[p1]*c1;
+			t *= c2;
+			s += t;
+			p1 += c1;
+			p2 += c2;
+			cout << t << "\n";
 		}
-		s += a[p1]*b[p2];
-		p1 += c1;
-		p2 += c2;
-		cout << s << "\n";
+		else if(a[p1] < b[p2]) {
+			p1 += 1;
+		}
+		else if(a[p1] > b[p2]) {
+			p2 += 1;
+		}
 	}
 
 	cout << s << "\n";
